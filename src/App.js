@@ -16,8 +16,8 @@ function App() {
     });
   }, []);
 
-  const handleSearch = (value) => {
-    setSearchInput(value);
+  const handleSearch = () => {
+    console.log(searchInput);
     data.filter((item) => {
       return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
     })
@@ -25,18 +25,20 @@ function App() {
     return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
   })
   setFilteredResults(filteredData);
+  console.log(filteredResults);
   }
 
   return (
     <div className="App">
     <h1>Superhero Index</h1>
-    <input value={searchInput} onChange={(e) => handleSearch(e.target.value)} className="searchBar" type="text" placeholder="Search" />
+    <input value={searchInput} onChange={(e) => setSearchInput(e.target.value)} className="searchBar" type="text" placeholder="Name" />
+    <button className="searchBtn" onClick={() => handleSearch()}>Search</button>
       <div className="container">
         {
           Object.keys(data).length === 0 ?
           <h1 className="loading">Loading...</h1>
           :
-          searchInput.length > 0 ?
+          filteredResults.length > 0 ?
           filteredResults.map((item, index) => {
             return (
               <HeroCard key={index} data={item}/>

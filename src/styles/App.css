@@ -33,6 +33,11 @@ li {
     margin: 0.5em auto;
     padding: 0.5em 1em;
   }
+  .searchBtn {
+    display: block;
+    margin: 1em auto;
+    padding: 0.5em 1em;
+  }
   .HeroCard {
     width: 85vw;
     margin: 1em auto;
