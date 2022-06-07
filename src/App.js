@@ -1,23 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import axios from "axios";
+import './styles/App.css';
+
+import HeroCard from './components/HeroCard'
 
 function App() {
+
+  const [data, setData] = useState({});
+  const [searchInput, setSearchInput] = useState('');
+  const [filteredResults, setFilteredResults] = useState([]);
+
+  React.useEffect(() => {
+    axios.get('https://akabab.github.io/superhero-api/api/all.json').then((response) => {
+      setData(response.data);
+    });
+  }, []);
+
+  const handleSearch = (value) => {
+    setSearchInput(value);
+    data.filter((item) => {
+      return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+    })
+    const filteredData = data.filter((item) => {
+    return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+  })
+  setFilteredResults(filteredData);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <h1>Superhero Index</h1>
+    <input value={searchInput} onChange={(e) => handleSearch(e.target.value)} className="searchBar" type="text" placeholder="Search" />
+      <div className="container">
+        {searchInput.length > 0 ?
+          filteredResults.map((item, index) => {
+            return (
+              <HeroCard key={index} data={item}/>
+            )
+          })
+        :
+          Object.keys(data).map((key, index) => {
+            return (
+              <HeroCard key={index} data={data[key]}/>
+            );
+          })
+        }
+      </div>
     </div>
   );
 }
