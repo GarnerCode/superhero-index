@@ -32,18 +32,22 @@ function App() {
     <h1>Superhero Index</h1>
     <input value={searchInput} onChange={(e) => handleSearch(e.target.value)} className="searchBar" type="text" placeholder="Search" />
       <div className="container">
-        {searchInput.length > 0 ?
+        {
+          Object.keys(data).length === 0 ?
+          <h1 className="loading">Loading...</h1>
+          :
+          searchInput.length > 0 ?
           filteredResults.map((item, index) => {
             return (
               <HeroCard key={index} data={item}/>
             )
           })
-        :
+          :
           Object.keys(data).map((key, index) => {
-            return (
-              <HeroCard key={index} data={data[key]}/>
-            );
-          })
+              return (
+                <HeroCard key={index} data={data[key]}/>
+              );
+            })
         }
       </div>
     </div>
